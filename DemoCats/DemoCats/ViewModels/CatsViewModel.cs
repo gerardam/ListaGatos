@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using DemoCats.Services;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -45,17 +46,25 @@ namespace DemoCats.ViewModels
                 try
                 {
                     IsBusy = true;
-                    using (var Client = new HttpClient())
+                    //using (var Client = new HttpClient())
+                    //{
+                    //    var URLWebAPI = "http://demos.ticapacitacion.com/cats";
+                    //    var JSON = await Client.GetStringAsync(URLWebAPI);
+                    //    var Item = JsonConvert.DeserializeObject<List<Cat>>(JSON);
+                    //    Cats.Clear();
+                    //    foreach (var Cat in Item)
+                    //    {
+                    //        Cats.Add(Cat);
+                    //    }
+                    //}
+                    var Service = new AzureService();
+                    var Items = await Service.GetCats();
+                    Cats.Clear();
+                    foreach (var Cat in Items)
                     {
-                        var URLWebAPI = "http://demos.ticapacitacion.com/cats";
-                        var JSON = await Client.GetStringAsync(URLWebAPI);
-                        var Item = JsonConvert.DeserializeObject<List<Cat>>(JSON);
-                        Cats.Clear();
-                        foreach (var Cat in Item)
-                        {
-                            Cats.Add(Cat);
-                        }
+                        Cats.Add(Cat);
                     }
+
                 }
                 catch (Exception ex)
                 {
